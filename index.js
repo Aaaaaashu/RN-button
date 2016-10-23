@@ -1,3 +1,5 @@
+/*! RN-Button v1.0.0 | MIT License | https://github.com/Aaaaaashu/RN-Button */
+
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, PixelRatio } from 'react-native'
 import React, { Component, PropTypes } from 'react'
 
@@ -43,23 +45,7 @@ class Button extends Component {
     loadingText: 'loading...',
   }
 
-  render() {
-    let touchableProps = this._getTouchableProps()
-    let touchableStyles = this._getTouchableStyles()
-
-    return (
-      <TouchableOpacity
-        {...touchableProps}
-        style={touchableStyles}
-        accessibilityTraits="button"
-        accessibilityComponentType="button"
-      >
-        {this._renderText()}
-      </TouchableOpacity>
-    )
-  }
-
-  _getTouchableProps() {
+  getTouchableProps() {
     let touchableProps = {}
 
     if (this.props.disabled || this.props.isLoading) {
@@ -73,91 +59,37 @@ class Button extends Component {
         onPressIn: this.props.onPressIn,
         onPressOut: this.props.onPressOut,
         onLongPress: this.props.onLongPress,
-        activeOpacity: this.props.activeOpacity
+        activeOpacity: this.props.activeOpacity,
       }
     }
 
     return touchableProps
   }
 
-  _getTouchableStyles() {
-    let touchableStyles = [
+  getTouchableStyles() {
+    const touchableStyles = [
       styles.container,
-      this._getTypeStyle(),
-      this._getSizeStyle(),
-      this._getShapeStyle(),
-      this._getOpacity(),
+      this.getTypeStyle(),
+      this.getSizeStyle(),
+      this.getShapeStyle(),
       this.props.containerStyle,
     ]
 
     return touchableStyles
   }
 
-  _renderText() {
-    let { isLoading } = this.props
-
-    let style = [
-      styles.text,
-      this._getTypeStyle(false),
-      this._getSizeStyle(false),
-      this.props.textStyle,
-    ]
-
-    if (isLoading === true) {
-      return this._renderLoading(style)
-    } else {
-      return this._renderChildren(style)
-    }
-  }
-
-  _renderChildren(style) {
-    let children = React.Children.map(this.props.children, (children, index) => {
-      return (
-        <Text key={index} style={style}>
-          {children}
-        </Text>
-      )
-    })
-
-    switch (children.length) {
-      case 0:
-        return null
-      case 1:
-        return children[0]
-      default:
-        return <View style={styles.group}>{children}</View>
-    }
-  }
-
-  _renderLoading(style) {
-    return (
-      <View style={styles.group}>
-        <ActivityIndicator
-          animating={true}
-          size='small'
-          style={styles.spinner}
-          color={this.props.type === 'outline' ? this._getColor() : '#fff'}
-        />
-        <Text style={[style, styles.spinnerText]}>
-          {this.props.loadingText}
-        </Text>
-      </View>
-    )
-  }
-
-  _getColor() {
+  getColor() {
     return colorList[this.props.color]
   }
 
-  _getOpacity() {
-    // #TODO
-    return this.props.disabled || this.props.isLoading ? { opacity: 1 } : { opacity: 1 }
+  getOpacity() {
+    return this.props.disabled || this.props.isLoading ? { opacity: 0.8 } : { opacity: 1 }
   }
 
-  _getTypeStyle(isContainer = true) {
-    let { type } = this.props
-    let color = this._getColor()
-    let typeList = {
+  getTypeStyle(isContainer = true) {
+    const { type } = this.props
+    const color = this.getColor()
+    const typeList = {
       container: {
         default: {
           backgroundColor: color,
@@ -166,7 +98,12 @@ class Button extends Component {
           backgroundColor: 'transparent',
           borderWidth: 1 / PixelRatio.get(),
           borderColor: color,
-        }
+        },
+        clear: {
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          borderColor: 'transparent',
+        },
       },
       text: {
         default: {
@@ -174,16 +111,19 @@ class Button extends Component {
         },
         outline: {
           color: color,
-        }
-      }
+        },
+        clear: {
+          color: color,
+        },
+      },
     }
 
     return isContainer ? typeList.container[type] : typeList.text[type]
   }
 
-  _getSizeStyle(isContainer = true) {
-    let { size } = this.props
-    let sizeList = {
+  getSizeStyle(isContainer = true) {
+    const { size } = this.props
+    const sizeList = {
       container: {
         default: {
           height: 44,
@@ -207,25 +147,95 @@ class Button extends Component {
         small: {
           fontSize: 12,
         },
-      }
+      },
     }
 
     return isContainer ? sizeList.container[size] : sizeList.text[size]
   }
 
-  _getShapeStyle() {
-    let { shape } = this.props
-    let shapeList = {
+  getShapeStyle() {
+    const { shape } = this.props
+    const shapeList = {
       default: {
         borderRadius: 4,
       },
       round: {
         borderRadius: 22,
         paddingHorizontal: 26,
-      }
+      },
     }
 
     return shapeList[shape]
+  }
+
+  renderLoading(style) {
+    return (
+      <View style={styles.group}>
+        <ActivityIndicator
+          animating
+          size="small"
+          style={styles.spinner}
+          color={this.props.type === 'outline' ? this.getColor() : '#fff'}
+        />
+        <Text style={[style, styles.spinnerText]}>
+          {this.props.loadingText}
+        </Text>
+      </View>
+    )
+  }
+
+  renderChildren(style) {
+    const children = React.Children.map(this.props.children, (child, index) => {
+      return (
+        <Text key={index} style={style}>
+          {child}
+        </Text>
+      )
+    })
+
+    switch (children.length) {
+      case 0:
+        return null
+      case 1:
+        return children[0]
+      default:
+        return <View style={styles.group}>{children}</View>
+    }
+  }
+
+  renderText() {
+    const { isLoading } = this.props
+
+    const style = [
+      styles.text,
+      this.getTypeStyle(false),
+      this.getSizeStyle(false),
+      this.getOpacity(),
+      this.props.textStyle,
+    ]
+
+    if (isLoading === true) {
+      return this.renderLoading(style)
+    }
+
+    return this.renderChildren(style)
+  }
+
+  render() {
+    const touchableProps = this.getTouchableProps()
+    const touchableStyles = this.getTouchableStyles()
+
+    return (
+      <TouchableOpacity
+        {...touchableProps}
+        testID={this.props.testID}
+        style={touchableStyles}
+        accessibilityTraits="button"
+        accessibilityComponentType="button"
+      >
+        {this.renderText()}
+      </TouchableOpacity>
+    )
   }
 }
 
@@ -245,7 +255,7 @@ const styles = StyleSheet.create({
   },
   spinnerText: {
     marginLeft: 8,
-  }
+  },
 })
 
 export default Button
