@@ -1,7 +1,7 @@
 # rn-button [![NPM version][npm-image]][npm-url]  [![Dependency Status][daviddm-image]][daviddm-url]
 > A React Native button component
 
-![demo]('images/demo.gif')
+![demo](https://raw.githubusercontent.com/Aaaaaashu/RN-Button/master/images/demo.gif)
 
 ## Installation
 
