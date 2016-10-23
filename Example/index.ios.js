@@ -17,17 +17,11 @@ export default class Example extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Button>Cool</Button>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Button containerStyle={styles.button} color="default">default</Button>
+        <Button containerStyle={styles.button} isLoading size="block" color="primary">primary</Button>
+        <Button containerStyle={styles.button} shape="round" color="sencondary">sencondary</Button>
+        <Button containerStyle={styles.button} type="outline" color="danger">danger</Button>
+        <Button containerStyle={styles.button} type="clear" color="light">light</Button>
       </View>
     );
   }
@@ -39,17 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    padding: 20,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  button: {
+    marginVertical: 10,
+  }
 });
 
 AppRegistry.registerComponent('Example', () => Example);

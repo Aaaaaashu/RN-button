@@ -11,21 +11,17 @@ import {
   Text,
   View
 } from 'react-native';
+import Button from 'rn-button'
 
 export default class Example extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <Button containerStyle={styles.button} color="default">default</Button>
+        <Button containerStyle={styles.button} isLoading size="block" color="primary">primary</Button>
+        <Button containerStyle={styles.button} shape="round" color="sencondary">sencondary</Button>
+        <Button containerStyle={styles.button} type="outline" color="danger">danger</Button>
+        <Button containerStyle={styles.button} type="clear" color="light">light</Button>
       </View>
     );
   }
@@ -37,17 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    padding: 20,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  button: {
+    marginVertical: 10,
+  }
 });
 
 AppRegistry.registerComponent('Example', () => Example);

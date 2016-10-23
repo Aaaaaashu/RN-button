@@ -1,6 +1,8 @@
 # rn-button [![NPM version][npm-image]][npm-url]  [![Dependency Status][daviddm-image]][daviddm-url]
 > A React Native button component
 
+![demo]('images/demo.gif')
+
 ## Installation
 
 ```sh
@@ -22,7 +24,6 @@ import Button from 'rn-button'
   RN Button
 </Button>
 ```
-
 
 ## API
 
@@ -46,7 +47,7 @@ import Button from 'rn-button'
 
 ## License
 
-MIT © [Ashu](aaaaaashu.me)
+MIT © [Ashu](http://aaaaaashu.me)
 
 
 [npm-image]: https://badge.fury.io/js/rn-button.svg
